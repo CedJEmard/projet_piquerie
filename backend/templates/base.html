@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr-ca">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Piquerie{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Piquerie</h1>
+        <nav>
+            <a href="/">Accueil</a>
+            <a href="/prendre-rendez-vous/">Prendre rendez-vous</a>
+            <a href="/admin/">Admin</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
