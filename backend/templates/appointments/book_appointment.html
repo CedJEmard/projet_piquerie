@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Prendre rendez-vous{% endblock %}
+
+{% block content %}
+
+<h2>Prendre rendez-vous</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="first_name" placeholder="Prénom" required>
+    <br><br>
+
+    <input type="text" name="last_name" placeholder="Nom" required>
+    <br><br>
+
+    <input type="text" name="phone_number" placeholder="Téléphone" required>
+    <br><br>
+
+    <input type="email" name="email" placeholder="Courriel">
+    <br><br>
+
+    <textarea name="address" placeholder="Adresse" required></textarea>
+    <br><br>
+
+    <input type="datetime-local" name="appointment_date" required>
+    <br><br>
+
+    <select name="service" required>
+        {% for service in services %}
+            <option value="{{ service.id }}">
+                {{ service.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <button type="submit">
+        Confirmer le rendez-vous
+    </button>
+
+</form>
+
+{% endblock %}

@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.shortcuts import render
+from apps.appointments.views import book_appointment
 
 
 def home(request):
@@ -25,4 +26,5 @@ def home(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('prendre-rendez-vous/', book_appointment, name='book_appointment'),
 ]
