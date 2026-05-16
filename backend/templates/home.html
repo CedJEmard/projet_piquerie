@@ -1,24 +1,192 @@
 {% extends "base.html" %}
 
-{% block title %}Accueil | Piquerie{% endblock %}
+{% block title %}
+Accueil | Piquerie
+{% endblock %}
 
 {% block content %}
-<section>
-    <h2>Prise de sang à domicile</h2>
-    <p>
-        Un service simple, professionnel et rassurant pour prendre rendez-vous
-        rapidement, sans créer de compte.
-    </p>
 
-    <a href="/prendre-rendez-vous/">Prendre rendez-vous</a>
+<section class="hero">
+
+    <div class="hero-text">
+
+        <p class="eyebrow">
+            Service professionnel à domicile
+        </p>
+
+        <h1>
+            Prise de sang à domicile, simplement.
+        </h1>
+
+        <p class="hero-description">
+            Un service rassurant, humain et efficace pour prendre rendez-vous
+            rapidement, sans complication inutile.
+        </p>
+
+        <button class="main-button open-booking">
+            Prendre rendez-vous
+        </button>
+
+    </div>
+
+    <div class="hero-image">
+
+        <div class="image-placeholder">
+            Image ici
+        </div>
+
+    </div>
+
 </section>
 
-<section>
-    <h3>Comment ça fonctionne?</h3>
-    <ol>
-        <li>Vous remplissez une demande simple.</li>
-        <li>Vous ajoutez votre ordonnance ou une photo.</li>
-        <li>Un rendez-vous est confirmé à votre domicile.</li>
-    </ol>
+<section id="services" class="section">
+
+    <h2>
+        Services et tarifs
+    </h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Prise de sang à domicile</h3>
+
+            <p>
+                Déplacement à domicile avec un professionnel qualifié.
+            </p>
+
+            <strong>
+                À partir de 45 $
+            </strong>
+        </div>
+
+        <div class="card">
+            <h3>Collecte de documents</h3>
+
+            <p>
+                Ajout simple d’une ordonnance PDF ou photo.
+            </p>
+
+            <strong>
+                Inclus
+            </strong>
+        </div>
+
+    </div>
+
 </section>
+
+<section id="about" class="section about">
+
+    <div>
+
+        <h2>
+            À propos
+        </h2>
+
+        <p>
+            Piquerie offre un service de prélèvement à domicile pensé pour réduire
+            le stress, simplifier les démarches et accompagner les patients avec
+            professionnalisme.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- MODAL -->
+
+<div class="modal-overlay" id="bookingModal">
+
+    <div class="booking-modal">
+
+        <button class="modal-close" id="closeModal">
+            ×
+        </button>
+
+        <button class="modal-back" id="closeModalMobile">
+            ← Retour
+        </button>
+
+        <h2>
+            Prendre rendez-vous
+        </h2>
+
+        <p class="modal-intro">
+            Remplissez ces informations simples.
+            Nous vous contacterons pour confirmer votre rendez-vous.
+        </p>
+
+        <form
+            method="POST"
+            action="/prendre-rendez-vous/"
+            class="booking-form"
+        >
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <input
+                    type="text"
+                    name="first_name"
+                    placeholder="Prénom"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="last_name"
+                    placeholder="Nom"
+                    required
+                >
+
+            </div>
+
+            <input
+                type="text"
+                name="phone_number"
+                placeholder="Téléphone"
+                required
+            >
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Courriel"
+            >
+
+            <textarea
+                name="address"
+                placeholder="Adresse complète"
+                required
+            ></textarea>
+
+            <input
+                type="datetime-local"
+                name="appointment_date"
+                required
+            >
+
+            <select name="service" required>
+
+                {% for service in services %}
+
+                    <option value="{{ service.id }}">
+                        {{ service.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button type="submit" class="submit-button">
+                Envoyer la demande
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
 {% endblock %}

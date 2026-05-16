@@ -1,21 +1,64 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="fr-ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Piquerie{% endblock %}</title>
-</head>
-<body>
-    <header>
-        <h1>Piquerie</h1>
-        <nav>
-            <a href="/">Accueil</a>
-            <a href="/prendre-rendez-vous/">Prendre rendez-vous</a>
-            <a href="/admin/">Admin</a>
-        </nav>
-    </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header class="top-contact">
+    <a href="tel:5141234567">
+        📞 514 123-4567
+    </a>
+</header>
+
+<nav class="navbar">
+
+    <div class="logo">
+        Piquerie
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+        ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
+
+        <a href="/">Accueil</a>
+
+        <a href="#services">
+            Services et tarifs
+        </a>
+
+        <a href="#about">
+            À propos
+        </a>
+
+        <button class="nav-cta open-booking">
+            Prendre rendez-vous
+        </button>
+
+    </div>
+
+</nav>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>
+        © 2026 Piquerie — Prise de sang à domicile
+    </p>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+
 </body>
 </html>

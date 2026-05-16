@@ -18,10 +18,20 @@ from django.contrib import admin
 from django.urls import path
 from django.shortcuts import render
 from apps.appointments.views import book_appointment
+from apps.services.models import Service
 
 
 def home(request):
-    return render(request, 'home.html')
+
+    services = Service.objects.filter(is_active=True)
+
+    return render(
+        request,
+        'home.html',
+        {
+            'services': services
+        }
+    )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
