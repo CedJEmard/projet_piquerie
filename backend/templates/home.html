@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-Accueil | Piquerie
+Accueil | Soins à domicile JC
 {% endblock %}
 
 {% block content %}
 
 <section class="hero">
+    <div class="hero-overlay"></div>
 
-    <div class="hero-text">
-
+    <div class="hero-content">
         <p class="eyebrow">
             Service professionnel à domicile
         </p>
 
         <h1>
-            Prise de sang à domicile, simplement.
+            Prise de sang à domicile,
+            simplement.
         </h1>
 
         <p class="hero-description">
@@ -23,82 +24,50 @@ Accueil | Piquerie
             rapidement, sans complication inutile.
         </p>
 
-        <button class="main-button open-booking">
-            Prendre rendez-vous
-        </button>
+        <div class="hero-actions">
+            <button class="main-button open-booking">
+                Prendre rendez-vous
+            </button>
 
-    </div>
-
-    <div class="hero-image">
-
-        <div class="image-placeholder">
-            Image ici
+            <a href="tel:5141234567" class="hero-phone">
+                📞 514 123-4567
+            </a>
         </div>
-
     </div>
-
 </section>
 
 <section id="services" class="section">
-
-    <h2>
-        Services et tarifs
-    </h2>
+    <h2>Services et tarifs</h2>
 
     <div class="cards">
-
         <div class="card">
             <h3>Prise de sang à domicile</h3>
-
-            <p>
-                Déplacement à domicile avec un professionnel qualifié.
-            </p>
-
-            <strong>
-                À partir de 45 $
-            </strong>
+            <p>Déplacement à domicile avec un professionnel qualifié.</p>
+            <strong>À partir de 60 $</strong>
         </div>
 
         <div class="card">
             <h3>Collecte de documents</h3>
-
-            <p>
-                Ajout simple d’une ordonnance PDF ou photo.
-            </p>
-
-            <strong>
-                Inclus
-            </strong>
+            <p>Ajout simple d’une ordonnance PDF ou photo.</p>
+            <strong>Inclus</strong>
         </div>
-
     </div>
-
 </section>
 
 <section id="about" class="section about">
-
     <div>
-
-        <h2>
-            À propos
-        </h2>
+        <h2>À propos</h2>
 
         <p>
-            Piquerie offre un service de prélèvement à domicile pensé pour réduire
-            le stress, simplifier les démarches et accompagner les patients avec
-            professionnalisme.
+            Soins à domicile JC offre un service de prélèvement à domicile pensé
+            pour réduire le stress, simplifier les démarches et accompagner les
+            patients avec professionnalisme.
         </p>
-
     </div>
-
 </section>
 
-<!-- MODAL -->
-
 <div class="modal-overlay" id="bookingModal">
-
     <div class="booking-modal">
-
         <button class="modal-close" id="closeModal">
             ×
         </button>
@@ -107,86 +76,39 @@ Accueil | Piquerie
             ← Retour
         </button>
 
-        <h2>
-            Prendre rendez-vous
-        </h2>
+        <h2>Prendre rendez-vous</h2>
 
         <p class="modal-intro">
             Remplissez ces informations simples.
             Nous vous contacterons pour confirmer votre rendez-vous.
         </p>
 
-        <form
-            method="POST"
-            action="/prendre-rendez-vous/"
-            class="booking-form"
-        >
-
+        <form method="POST" action="/prendre-rendez-vous/" class="booking-form">
             {% csrf_token %}
 
             <div class="form-grid">
-
-                <input
-                    type="text"
-                    name="first_name"
-                    placeholder="Prénom"
-                    required
-                >
-
-                <input
-                    type="text"
-                    name="last_name"
-                    placeholder="Nom"
-                    required
-                >
-
+                <input type="text" name="first_name" placeholder="Prénom" required>
+                <input type="text" name="last_name" placeholder="Nom" required>
             </div>
 
-            <input
-                type="text"
-                name="phone_number"
-                placeholder="Téléphone"
-                required
-            >
-
-            <input
-                type="email"
-                name="email"
-                placeholder="Courriel"
-            >
-
-            <textarea
-                name="address"
-                placeholder="Adresse complète"
-                required
-            ></textarea>
-
-            <input
-                type="datetime-local"
-                name="appointment_date"
-                required
-            >
+            <input type="text" name="phone_number" placeholder="Téléphone" required>
+            <input type="email" name="email" placeholder="Courriel">
+            <textarea name="address" placeholder="Adresse complète" required></textarea>
+            <input type="datetime-local" name="appointment_date" required>
 
             <select name="service" required>
-
                 {% for service in services %}
-
                     <option value="{{ service.id }}">
                         {{ service.name }}
                     </option>
-
                 {% endfor %}
-
             </select>
 
             <button type="submit" class="submit-button">
                 Envoyer la demande
             </button>
-
         </form>
-
     </div>
-
 </div>
 
 {% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="booking-modal" style="margin: 0 auto;">
+
+        <h2>
+            Connexion
+        </h2>
+
+        <p class="modal-intro">
+            Connectez-vous pour accéder à votre dossier et vos rendez-vous.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="booking-form">
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Nom d'utilisateur"
+                    required
+                >
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Mot de passe"
+                    required
+                >
+
+                <button type="submit" class="submit-button">
+                    Se connecter
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -15,14 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.shortcuts import render
+from django.urls import path, include
+from django.shortcuts import render, redirect
 from apps.appointments.views import book_appointment
 from apps.services.models import Service
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-
     services = Service.objects.filter(is_active=True)
 
     return render(
@@ -32,9 +32,57 @@ def home(request):
             'services': services
         }
     )
+    
+@login_required
+def account_view(request):
+    patient = getattr(request.user, 'patient_profile', None)
+
+    appointments = []
+    documents = []
+
+    if patient:
+        appointments = patient.appointments.all()
+
+    return render(
+        request,
+        'account.html',
+        {
+            'patient': patient,
+            'appointments': appointments,
+            'documents': documents,
+        }
+    )
+
+
+
+def redirect_user_after_login(request):
+    if request.user.is_staff:
+        return redirect('/admin/')
+
+    return redirect('/')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('accounts/', include('django.contrib.auth.urls')),
+
     path('', home, name='home'),
-    path('prendre-rendez-vous/', book_appointment, name='book_appointment'),
+
+    path(
+        'prendre-rendez-vous/',
+        book_appointment,
+        name='book_appointment'
+    ),
+
+    path(
+        'redirect/',
+        redirect_user_after_login,
+        name='redirect_user_after_login'
+    ),
+    path(
+    'mon-compte/',
+    account_view,
+    name='account'
+    ),
 ]

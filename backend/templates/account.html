@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mon compte
+{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <h1>
+        Mon compte
+    </h1>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h2>
+                Informations personnelles
+            </h2>
+
+            <p>
+                <strong>Nom d’utilisateur :</strong>
+                {{ user.username }}
+            </p>
+
+            <p>
+                <strong>Courriel :</strong>
+                {{ user.email }}
+            </p>
+
+            <p>
+                <strong>Prénom :</strong>
+                {{ patient.first_name }}
+            </p>
+
+            <p>
+                <strong>Nom :</strong>
+                {{ patient.last_name }}
+            </p>
+
+            <p>
+                <strong>Téléphone :</strong>
+                {{ patient.phone_number }}
+            </p>
+
+            <p>
+                <strong>Adresse :</strong>
+                {{ patient.address }}
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>
+                Rendez-vous
+            </h2>
+
+            {% if appointments %}
+
+                {% for appointment in appointments %}
+
+                    <div style="margin-bottom: 1rem;">
+
+                        <p>
+                            <strong>Date :</strong>
+                            {{ appointment.appointment_date }}
+                        </p>
+
+                        <p>
+                            <strong>Service :</strong>
+                            {{ appointment.service.name }}
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    Aucun rendez-vous.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        <div class="card">
+
+            <h2>
+                Documents médicaux
+            </h2>
+
+            {% if documents %}
+
+                {% for document in documents %}
+
+                    <p>
+                        {{ document.file.name }}
+                    </p>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    Aucun document ajouté.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

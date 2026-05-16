@@ -5,47 +5,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Piquerie{% endblock %}</title>
+    <title>{% block title %}Soins à domicile JC{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
-<header class="top-contact">
-    <a href="tel:5141234567">
-        📞 514 123-4567
-    </a>
-</header>
-
 <nav class="navbar">
+    <div class="logo-wrapper">
+        <img src="{% static 'img/logo.svg' %}" alt="Logo Soins à domicile JC" class="site-logo">
 
-    <div class="logo">
-        Piquerie
+        <div class="logo">
+            Soins à domicile JC
+        </div>
     </div>
 
-    <button class="menu-toggle" id="menuToggle">
+    <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">
         ☰
     </button>
 
     <div class="nav-links" id="navLinks">
-
         <a href="/">Accueil</a>
-
-        <a href="#services">
-            Services et tarifs
-        </a>
-
-        <a href="#about">
-            À propos
-        </a>
-
-        <button class="nav-cta open-booking">
+        <a href="#services">Services et tarifs</a>
+        <a href="#about">À propos</a>
+        {% if user.is_authenticated %}
+        <a href="/mon-compte/">Mon compte</a>
+        <form method="POST" action="/accounts/logout/" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="nav-link-button">
+            Déconnexion
+        </button>
+        </form>
+        {% else %}
+        <a href="/accounts/login/">Connexion</a>
+        {% endif %}
+        <button class="nav-link-button open-booking">
             Prendre rendez-vous
         </button>
-
     </div>
-
 </nav>
 
 <main>
@@ -53,9 +55,7 @@
 </main>
 
 <footer>
-    <p>
-        © 2026 Piquerie — Prise de sang à domicile
-    </p>
+    <p>© 2026 Soins à domicile JC — Prise de sang à domicile</p>
 </footer>
 
 <script src="{% static 'js/main.js' %}"></script>
