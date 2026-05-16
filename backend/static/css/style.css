@@ -413,3 +413,30 @@ footer {
         margin-top: 2.5rem;
     }
 }
+
+/* ACCOUNT */
+
+.account-action {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 999px;
+
+    font-family: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.account-item {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #d8e4e3;
+}

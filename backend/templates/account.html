@@ -8,110 +8,63 @@ Mon compte
 
 <section class="section">
 
-    <h1>
-        Mon compte
-    </h1>
+    <h1>Mon compte</h1>
 
     <div class="cards">
 
         <div class="card">
+            <h2>Informations personnelles</h2>
 
-            <h2>
-                Informations personnelles
-            </h2>
+            <p><strong>Nom d’utilisateur :</strong> {{ user.username }}</p>
+            <p><strong>Courriel :</strong> {{ user.email }}</p>
 
-            <p>
-                <strong>Nom d’utilisateur :</strong>
-                {{ user.username }}
-            </p>
+            {% if patient %}
+                <p><strong>Prénom :</strong> {{ patient.first_name }}</p>
+                <p><strong>Nom :</strong> {{ patient.last_name }}</p>
+                <p><strong>Téléphone :</strong> {{ patient.phone_number }}</p>
+                <p><strong>Adresse :</strong> {{ patient.address }}</p>
+            {% else %}
+                <p>Aucun dossier patient associé à ce compte.</p>
+            {% endif %}
 
-            <p>
-                <strong>Courriel :</strong>
-                {{ user.email }}
-            </p>
-
-            <p>
-                <strong>Prénom :</strong>
-                {{ patient.first_name }}
-            </p>
-
-            <p>
-                <strong>Nom :</strong>
-                {{ patient.last_name }}
-            </p>
-
-            <p>
-                <strong>Téléphone :</strong>
-                {{ patient.phone_number }}
-            </p>
-
-            <p>
-                <strong>Adresse :</strong>
-                {{ patient.address }}
-            </p>
-
+            <a href="#" class="account-action">
+                Modifier mes informations
+            </a>
         </div>
 
         <div class="card">
-
-            <h2>
-                Rendez-vous
-            </h2>
+            <h2>Rendez-vous</h2>
 
             {% if appointments %}
-
                 {% for appointment in appointments %}
-
-                    <div style="margin-bottom: 1rem;">
-
-                        <p>
-                            <strong>Date :</strong>
-                            {{ appointment.appointment_date }}
-                        </p>
-
-                        <p>
-                            <strong>Service :</strong>
-                            {{ appointment.service.name }}
-                        </p>
-
+                    <div class="account-item">
+                        <p><strong>Date :</strong> {{ appointment.appointment_date }}</p>
+                        <p><strong>Service :</strong> {{ appointment.service.name }}</p>
                     </div>
-
                 {% endfor %}
-
             {% else %}
-
-                <p>
-                    Aucun rendez-vous.
-                </p>
-
+                <p>Aucun rendez-vous pour le moment.</p>
             {% endif %}
 
+            <button class="account-action open-booking">
+                Prendre rendez-vous
+            </button>
         </div>
 
         <div class="card">
-
-            <h2>
-                Documents médicaux
-            </h2>
+            <h2>Documents médicaux</h2>
 
             {% if documents %}
-
                 {% for document in documents %}
-
-                    <p>
-                        {{ document.file.name }}
-                    </p>
-
+                    <p>{{ document.file.name }}</p>
                 {% endfor %}
-
             {% else %}
-
-                <p>
-                    Aucun document ajouté.
-                </p>
-
+                <p>Aucun document ajouté.</p>
             {% endif %}
 
+            <a href="#" class="account-action">
+                Ajouter un document
+            </a>
         </div>
 
     </div>
