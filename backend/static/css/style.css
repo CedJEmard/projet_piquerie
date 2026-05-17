@@ -298,14 +298,33 @@ body {
 }
 
 .submit-button {
+    width: 100%;
+
+    min-height: 56px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background: var(--primary);
     color: white;
+
     border: none;
-    padding: 1rem;
     border-radius: 999px;
+
+    padding: 1rem;
+
+    font-size: 1rem;
     font-weight: 700;
-    cursor: pointer;
     font-family: inherit;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.submit-button:visited {
+    color: white;
 }
 
 /* FOOTER */
@@ -430,6 +449,7 @@ footer {
     border-radius: 999px;
 
     font-family: inherit;
+    font-size: 1rem;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;

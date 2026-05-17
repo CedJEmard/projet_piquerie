@@ -21,6 +21,9 @@ from apps.appointments.views import book_appointment
 from apps.services.models import Service
 from django.contrib.auth.decorators import login_required
 from apps.documents.models import MedicalDocument
+from django.contrib.auth.models import User
+
+from apps.patients.models import PatientProfile
 
 
 def home(request):
@@ -79,6 +82,56 @@ def add_document_view(request):
             return redirect('/mon-compte/')
 
     return redirect('/mon-compte/')
+
+
+def signup_view(request):
+
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+
+        email = request.POST.get('email')
+
+        password = request.POST.get('password')
+
+        first_name = request.POST.get('first_name')
+
+        last_name = request.POST.get('last_name')
+
+        phone_number = request.POST.get('phone_number')
+
+        address = request.POST.get('address')
+
+        if User.objects.filter(username=username).exists():
+
+            return render(
+                request,
+                'signup.html',
+                {
+                    'error': 'Ce nom d’utilisateur existe déjà.'
+                }
+            )
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        PatientProfile.objects.create(
+            user=user,
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number,
+            address=address
+        )
+
+        return redirect('/accounts/login/')
+
+    return render(
+        request,
+        'signup.html'
+    )
 
 def edit_account_view(request):
 
@@ -143,5 +196,10 @@ urlpatterns = [
     'mon-compte/document/ajouter/',
     add_document_view,
     name='add_document'
+    ),
+    path(
+    'accounts/signup/',
+    signup_view,
+    name='signup'
     ),
 ]
