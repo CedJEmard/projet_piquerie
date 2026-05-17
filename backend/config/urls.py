@@ -21,7 +21,7 @@ from apps.appointments.views import book_appointment
 from apps.services.models import Service
 from django.contrib.auth.decorators import login_required
 from apps.documents.models import MedicalDocument
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from apps.patients.models import PatientProfile
 
@@ -85,6 +85,8 @@ def add_document_view(request):
 
 
 def signup_view(request):
+    
+    User = get_user_model()
 
     if request.method == 'POST':
 
