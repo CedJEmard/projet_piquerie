@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render, redirect
-from apps.appointments.views import book_appointment, get_available_slots
+from apps.appointments.views import book_appointment, get_available_slots, get_available_days
 from apps.appointments.models import Region
 from apps.services.models import Service
 from django.contrib.auth.decorators import login_required
@@ -211,5 +211,10 @@ urlpatterns = [
     'api/disponibilites/',
     get_available_slots,
     name='get_available_slots'
+    ),
+    path(
+    'api/jours-disponibles/',
+    get_available_days,
+    name='get_available_days'
     ),
 ]

@@ -74,6 +74,9 @@ if (documentModal && openDocumentModal && closeDocumentModal) {
 // BOOKING WIZARD
 const bookingSteps = document.querySelectorAll('.booking-step');
 const bookingNextButtons = document.querySelectorAll('.booking-next');
+const bookingNextStep1 = bookingNextButtons[0];
+const bookingNextStep2 = bookingNextButtons[1];
+const bookingNextStep3 = bookingNextButtons[2];
 const bookingBackButton = document.getElementById('bookingBackButton');
 
 let currentBookingStep = 1;
@@ -96,8 +99,56 @@ function showBookingStep(stepNumber) {
     }
 }
 
+function updateBookingButtons() {
+
+    if (bookingNextStep1) {
+
+        bookingNextStep1.disabled = !(
+            regionSelect.value &&
+            serviceSelect.value
+        );
+
+    }
+
+    if (bookingNextStep2) {
+
+        bookingNextStep2.disabled =
+            !appointmentDatePicker.value;
+
+    }
+
+    if (bookingNextStep3) {
+
+        bookingNextStep3.disabled =
+            !selectedAppointmentDate.value;
+
+    }
+
+}
+
+function canGoNext() {
+    if (currentBookingStep === 1) {
+        return regionSelect.value && serviceSelect.value;
+    }
+
+    if (currentBookingStep === 2) {
+        return appointmentDatePicker.value;
+    }
+
+    if (currentBookingStep === 3) {
+        return selectedAppointmentDate.value;
+    }
+
+    return true;
+}
+
 bookingNextButtons.forEach(button => {
     button.addEventListener('click', () => {
+        if (!canGoNext()) {
+            alert('Veuillez compléter cette étape avant de continuer.');
+            return;
+        }
+
         if (currentBookingStep < 4) {
             showBookingStep(currentBookingStep + 1);
         }
@@ -132,7 +183,7 @@ function formatDateForApi(date) {
     return date.toISOString().split('T')[0];
 }
 
-function renderCalendar() {
+async function renderCalendar() {
     if (!calendarGrid || !calendarTitle) {
         return;
     }
@@ -157,32 +208,74 @@ function renderCalendar() {
         calendarGrid.appendChild(empty);
     }
 
-    for (let day = 1; day <= lastDay.getDate(); day++) {
-        const date = new Date(year, month, day);
-        const button = document.createElement('button');
+    const monthValue =
+    `${year}-${String(month + 1).padStart(2, '0')}`;
 
-        button.type = 'button';
-        button.className = 'calendar-day available';
-        button.textContent = day;
+let availableDays = [];
+
+if (
+    regionSelect.value &&
+    serviceSelect.value
+) {
+
+    const response = await fetch(
+        `/api/jours-disponibles/?region=${regionSelect.value}&service=${serviceSelect.value}&month=${monthValue}`
+    );
+
+    const data = await response.json();
+
+    availableDays = data.days;
+
+}
+
+for (let day = 1; day <= lastDay.getDate(); day++) {
+
+    const date = new Date(year, month, day);
+
+    const isoDate = formatDateForApi(date);
+
+    const button = document.createElement('button');
+
+    button.type = 'button';
+
+    button.className = 'calendar-day';
+
+    button.textContent = day;
+
+    const isAvailable =
+        availableDays.includes(isoDate);
+
+    if (isAvailable) {
+
+        button.classList.add('available');
 
         button.addEventListener('click', async () => {
-            document.querySelectorAll('.calendar-day').forEach(btn => {
-                btn.classList.remove('selected');
-            });
+
+            document
+                .querySelectorAll('.calendar-day')
+                .forEach(btn => {
+                    btn.classList.remove('selected');
+                });
 
             button.classList.add('selected');
 
-            const selectedDate = formatDateForApi(date);
+            appointmentDatePicker.value = isoDate;
 
-            appointmentDatePicker.value = selectedDate;
-
-            await loadTimeSlots(selectedDate);
+            await loadTimeSlots(isoDate);
 
             showBookingStep(3);
+
         });
 
-        calendarGrid.appendChild(button);
+    } else {
+
+        button.classList.add('disabled');
+
     }
+
+    calendarGrid.appendChild(button);
+
+}
 }
 
 async function loadTimeSlots(date) {
@@ -248,8 +341,34 @@ if (nextMonth) {
 }
 
 if (regionSelect && serviceSelect) {
-    regionSelect.addEventListener('change', renderCalendar);
-    serviceSelect.addEventListener('change', renderCalendar);
+
+    regionSelect.addEventListener('change', () => {
+
+        renderCalendar();
+
+        updateBookingButtons();
+
+    });
+
+    serviceSelect.addEventListener('change', () => {
+
+        renderCalendar();
+
+        updateBookingButtons();
+
+    });
+
 }
 
 renderCalendar();
+
+const bookingForm = document.getElementById('bookingForm');
+
+if (bookingForm) {
+    bookingForm.addEventListener('submit', event => {
+        if (!selectedAppointmentDate.value) {
+            event.preventDefault();
+            alert('Veuillez choisir une heure de rendez-vous.');
+        }
+    });
+}

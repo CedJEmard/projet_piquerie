@@ -327,6 +327,12 @@ body {
     color: white;
 }
 
+.submit-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
 /* FOOTER */
 
 footer {
@@ -469,7 +475,7 @@ footer {
 
 .booking-step.active {
     display: grid;
-    gap: 1rem;
+    gap: 0.9rem;
 }
 
 #bookingBackButton {
@@ -502,16 +508,17 @@ footer {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
+    gap: 0.35rem;
 }
 
 .calendar-day {
-    min-height: 44px;
+    min-height: 36px;
     border: 1px solid #d8e4e3;
-    border-radius: 12px;
+    border-radius: 8px;
     background: white;
     cursor: pointer;
     font-family: inherit;
+    font-size: 0.9rem;
 }
 
 .calendar-day.available {
@@ -531,9 +538,13 @@ footer {
 }
 
 .time-slots {
+    max-height: 260px;
+    overflow-y: auto;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.7rem;
+    gap: 0.55rem;
+    padding-right: 0.25rem;
 }
 
 .time-slot {
@@ -541,9 +552,10 @@ footer {
     background: white;
     color: var(--primary);
     border-radius: 999px;
-    padding: 0.8rem;
+    padding: 0.65rem 0.5rem;
     cursor: pointer;
     font-weight: 700;
+    font-size: 0.92rem;
 }
 
 .time-slot.selected {
