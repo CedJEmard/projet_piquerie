@@ -20,6 +20,7 @@ from django.shortcuts import render, redirect
 from apps.appointments.views import book_appointment
 from apps.services.models import Service
 from django.contrib.auth.decorators import login_required
+from apps.documents.models import MedicalDocument
 
 
 def home(request):
@@ -52,7 +53,55 @@ def account_view(request):
             'documents': documents,
         }
     )
+    
+@login_required
+def add_document_view(request):
 
+    patient = getattr(request.user, 'patient_profile', None)
+
+    if not patient:
+        return redirect('/mon-compte/')
+
+    if request.method == 'POST':
+
+        uploaded_file = request.FILES.get('file')
+
+        document_type = request.POST.get('document_type')
+
+        if uploaded_file:
+
+            MedicalDocument.objects.create(
+                patient_profile=patient,
+                document_type=document_type,
+                file=uploaded_file
+            )
+
+            return redirect('/mon-compte/')
+
+    return redirect('/mon-compte/')
+
+def edit_account_view(request):
+
+    patient = getattr(request.user, 'patient_profile', None)
+
+    if request.method == 'POST' and patient:
+
+        patient.first_name = request.POST.get('first_name')
+        patient.last_name = request.POST.get('last_name')
+        patient.phone_number = request.POST.get('phone_number')
+        patient.address = request.POST.get('address')
+
+        patient.save()
+
+        return redirect('/mon-compte/')
+
+    return render(
+        request,
+        'edit_account.html',
+        {
+            'patient': patient
+        }
+    )
 
 
 def redirect_user_after_login(request):
@@ -84,5 +133,15 @@ urlpatterns = [
     'mon-compte/',
     account_view,
     name='account'
+    ),
+    path(
+    'mon-compte/modifier/',
+    edit_account_view,
+    name='edit_account'
+    ),
+    path(
+    'mon-compte/document/ajouter/',
+    add_document_view,
+    name='add_document'
     ),
 ]

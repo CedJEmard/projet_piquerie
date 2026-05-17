@@ -1,3 +1,4 @@
+// Mobile navigation
 const menuToggle = document.getElementById('menuToggle');
 const navLinks = document.getElementById('navLinks');
 
@@ -7,45 +8,85 @@ if (menuToggle && navLinks) {
     });
 }
 
-const modal = document.getElementById('bookingModal');
 
-const openButtons = document.querySelectorAll('.open-booking');
+// Reusable modal helper
+function setupModal({
+    modalId,
+    openSelector,
+    closeSelectors = []
+}) {
+    const modal = document.getElementById(modalId);
+    const openButtons = document.querySelectorAll(openSelector);
 
-const closeModal = document.getElementById('closeModal');
+    if (!modal || openButtons.length === 0) {
+        return;
+    }
 
-const closeModalMobile = document.getElementById('closeModalMobile');
+    function openModal() {
+        modal.classList.add('active');
+    }
 
-if (modal) {
+    function closeModal() {
+        modal.classList.remove('active');
+    }
 
     openButtons.forEach(button => {
-
-        button.addEventListener('click', () => {
-            modal.classList.add('active');
-        });
-
+        button.addEventListener('click', openModal);
     });
 
-    if (closeModal) {
+    closeSelectors.forEach(selector => {
+        const closeButton = document.querySelector(selector);
 
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-
-    }
-
-    if (closeModalMobile) {
-
-        closeModalMobile.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-
-    }
+        if (closeButton) {
+            closeButton.addEventListener('click', closeModal);
+        }
+    });
 
     modal.addEventListener('click', event => {
-
         if (event.target === modal) {
-            modal.classList.remove('active');
+            closeModal();
+        }
+    });
+}
+
+
+// Appointment modal
+setupModal({
+    modalId: 'bookingModal',
+    openSelector: '.open-booking',
+    closeSelectors: ['#closeModal', '#closeModalMobile']
+});
+
+
+// Medical document modal
+const documentModal = document.getElementById('documentModal');
+
+const openDocumentModal =
+    document.getElementById('openDocumentModal');
+
+const closeDocumentModal =
+    document.getElementById('closeDocumentModal');
+
+if (
+    documentModal &&
+    openDocumentModal &&
+    closeDocumentModal
+) {
+
+    openDocumentModal.addEventListener('click', () => {
+        documentModal.classList.add('active');
+    });
+
+    closeDocumentModal.addEventListener('click', () => {
+        documentModal.classList.remove('active');
+    });
+
+    documentModal.addEventListener('click', event => {
+
+        if (event.target === documentModal) {
+            documentModal.classList.remove('active');
         }
 
     });
+
 }

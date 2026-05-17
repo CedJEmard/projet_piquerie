@@ -9,8 +9,8 @@ class MedicalDocument(models.Model):
         ('other', 'Autre document'),
     ]
 
-    appointment = models.ForeignKey(
-        'appointments.Appointment',
+    patient_profile = models.ForeignKey(
+        'patients.PatientProfile',
         on_delete=models.CASCADE,
         related_name='documents'
     )
@@ -28,4 +28,4 @@ class MedicalDocument(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.get_document_type_display()} - {self.appointment}"
+        return f"{self.get_document_type_display()} - {self.patient_profile}"

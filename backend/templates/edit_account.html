@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Modifier mes informations
+{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="booking-modal" style="margin: 0 auto;">
+
+        <h2>
+            Modifier mes informations
+        </h2>
+
+        <form method="POST" class="booking-form">
+
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="first_name"
+                value="{{ patient.first_name }}"
+                placeholder="Prénom"
+            >
+
+            <input
+                type="text"
+                name="last_name"
+                value="{{ patient.last_name }}"
+                placeholder="Nom"
+            >
+
+            <input
+                type="text"
+                name="phone_number"
+                value="{{ patient.phone_number }}"
+                placeholder="Téléphone"
+            >
+
+            <textarea
+                name="address"
+                placeholder="Adresse"
+            >{{ patient.address }}</textarea>
+
+            <button type="submit" class="submit-button">
+                Enregistrer
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

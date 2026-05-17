@@ -27,7 +27,7 @@ Mon compte
                 <p>Aucun dossier patient associé à ce compte.</p>
             {% endif %}
 
-            <a href="#" class="account-action">
+            <a href="/mon-compte/modifier/" class="account-action">
                 Modifier mes informations
             </a>
         </div>
@@ -62,13 +62,55 @@ Mon compte
                 <p>Aucun document ajouté.</p>
             {% endif %}
 
-            <a href="#" class="account-action">
+            <button class="account-action" id="openDocumentModal">
                 Ajouter un document
-            </a>
+            </button>
         </div>
 
     </div>
 
 </section>
+
+<div class="modal-overlay" id="documentModal">
+
+    <div class="booking-modal">
+
+        <button class="modal-close" id="closeDocumentModal">
+            ×
+        </button>
+
+        <h2>
+            Ajouter un document
+        </h2>
+
+        <p class="modal-intro">
+            Ajoutez une ordonnance, une photo ou un document lié à un rendez-vous.
+        </p>
+
+        <form
+            method="POST"
+            action="/mon-compte/document/ajouter/"
+            enctype="multipart/form-data"
+            class="booking-form"
+        >
+
+            {% csrf_token %}
+
+            <input
+                type="file"
+                name="file"
+                accept=".pdf,.jpg,.jpeg,.png,.heic,.webp"
+                required
+            >
+
+            <button type="submit" class="submit-button">
+                Ajouter le document
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
 {% endblock %}
