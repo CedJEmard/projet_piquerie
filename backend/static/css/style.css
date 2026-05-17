@@ -460,3 +460,93 @@ footer {
     margin-bottom: 1rem;
     border-bottom: 1px solid #d8e4e3;
 }
+
+/* BOOKING */
+
+.booking-step {
+    display: none;
+}
+
+.booking-step.active {
+    display: grid;
+    gap: 1rem;
+}
+
+#bookingBackButton {
+    display: none;
+}
+
+#bookingBackButton.visible {
+    display: inline-block;
+}
+
+/* CALENDAR */
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.calendar-header button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    min-height: 44px;
+    border: 1px solid #d8e4e3;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.calendar-day.available {
+    background: var(--secondary);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.calendar-day.selected {
+    background: var(--primary);
+    color: white;
+}
+
+.calendar-day.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+}
+
+.time-slot {
+    border: 1px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    border-radius: 999px;
+    padding: 0.8rem;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.time-slot.selected {
+    background: var(--primary);
+    color: white;
+}

@@ -45,6 +45,12 @@ class Appointment(models.Model):
         ('cancelled', 'Annulé'),
     ]
 
+    CONTACT_PREFERENCE_CHOICES = [
+        ('email', 'Courriel'),
+        ('sms', 'Texto'),
+        ('phone', 'Téléphone'),
+    ]
+
     patient_profile = models.ForeignKey(
         'patients.PatientProfile',
         on_delete=models.SET_NULL,
@@ -71,8 +77,14 @@ class Appointment(models.Model):
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     email = models.EmailField(blank=True)
-    address = models.TextField()
 
+    contact_preference = models.CharField(
+        max_length=20,
+        choices=CONTACT_PREFERENCE_CHOICES,
+        default='phone'
+    )
+
+    address = models.TextField()
     appointment_date = models.DateTimeField()
 
     status = models.CharField(

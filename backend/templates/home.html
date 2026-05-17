@@ -68,47 +68,93 @@ Accueil | Soins à domicile JC
 
 <div class="modal-overlay" id="bookingModal">
     <div class="booking-modal">
-        <button class="modal-close" id="closeModal">
-            ×
-        </button>
 
-        <button class="modal-back" id="closeModalMobile">
+        <button class="modal-close" id="closeModal">×</button>
+
+        <button class="modal-back" id="bookingBackButton" type="button">
             ← Retour
         </button>
 
-        <h2>Prendre rendez-vous</h2>
-
-        <p class="modal-intro">
-            Remplissez ces informations simples.
-            Nous vous contacterons pour confirmer votre rendez-vous.
-        </p>
-
-        <form method="POST" action="/prendre-rendez-vous/" class="booking-form">
+        <form method="POST" action="/prendre-rendez-vous/" class="booking-form" id="bookingForm">
             {% csrf_token %}
 
-            <div class="form-grid">
-                <input type="text" name="first_name" placeholder="Prénom" required>
-                <input type="text" name="last_name" placeholder="Nom" required>
+            <div class="booking-step active" data-step="1">
+                <h2>Où souhaitez-vous le rendez-vous?</h2>
+
+                <p class="modal-intro">
+                    Choisissez d’abord votre région et le service désiré.
+                </p>
+
+                <select name="region" id="regionSelect" required>
+                    <option value="">Choisir une région</option>
+
+                    {% for region in regions %}
+                        <option value="{{ region.id }}">
+                            {{ region.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <select name="service" id="serviceSelect" required>
+                    <option value="">Choisir un service</option>
+
+                    {% for service in services %}
+                        <option value="{{ service.id }}">
+                            {{ service.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="button" class="submit-button booking-next">
+                    Continuer
+                </button>
             </div>
 
-            <input type="text" name="phone_number" placeholder="Téléphone" required>
-            <input type="email" name="email" placeholder="Courriel">
-            <textarea name="address" placeholder="Adresse complète" required></textarea>
-            <input type="datetime-local" name="appointment_date" required>
+            <div class="booking-step" data-step="2">
+                <h2>Choisir une date</h2>
+                <p class="modal-intro">Sélectionnez une journée disponible.</p>
+                <div class="calendar-header">
+                     <button type="button" id="prevMonth">←</button>
+                     <h3 id="calendarTitle"></h3>
+                     <button type="button" id="nextMonth">→</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+                <input type="hidden" id="appointmentDatePicker">
+            </div>
 
-            <select name="service" required>
-                {% for service in services %}
-                    <option value="{{ service.id }}">
-                        {{ service.name }}
-                    </option>
-                {% endfor %}
-            </select>
+            <div class="booking-step" data-step="3">
+                <h2>Choisir une heure</h2>
+                <p class="modal-intro">Sélectionnez une plage horaire disponible.</p>
+                <div class="time-slots" id="timeSlots"></div>
+                <input type="hidden" name="appointment_date" id="selectedAppointmentDate" required>
+            </div>
+            
+            <div class="booking-step" data-step="4">
+                <h2>Vos informations</h2>
 
-            <button type="submit" class="submit-button">
-                Envoyer la demande
-            </button>
+                <p class="modal-intro">
+                    Nous utiliserons ces informations seulement pour confirmer votre rendez-vous.
+                </p>
+
+                <div class="form-grid">
+                    <input type="text" name="first_name" placeholder="Prénom" required>
+                    <input type="text" name="last_name" placeholder="Nom" required>
+                </div>
+
+                <input type="text" name="phone_number" placeholder="Téléphone" required>
+                <input type="email" name="email" placeholder="Courriel">
+                <textarea name="address" placeholder="Adresse complète" required></textarea>
+
+                <select name="contact_preference" required>
+                    <option value="sms">Me contacter par message texte</option>
+                    <option value="email">Me contacter par courriel</option>
+                </select>
+
+                <button type="submit" class="submit-button">
+                    Confirmer le rendez-vous
+                </button>
+            </div>
         </form>
     </div>
 </div>
-
 {% endblock %}

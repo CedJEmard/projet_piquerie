@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render, redirect
-from apps.appointments.views import book_appointment
+from apps.appointments.views import book_appointment, get_available_slots
+from apps.appointments.models import Region
 from apps.services.models import Service
 from django.contrib.auth.decorators import login_required
 from apps.documents.models import MedicalDocument
@@ -28,12 +29,14 @@ from apps.patients.models import PatientProfile
 
 def home(request):
     services = Service.objects.filter(is_active=True)
+    regions = Region.objects.filter(is_active=True)
 
     return render(
         request,
         'home.html',
         {
-            'services': services
+            'services': services,
+            'regions': regions
         }
     )
     
@@ -203,5 +206,10 @@ urlpatterns = [
     'accounts/signup/',
     signup_view,
     name='signup'
+    ),
+    path(
+    'api/disponibilites/',
+    get_available_slots,
+    name='get_available_slots'
     ),
 ]
